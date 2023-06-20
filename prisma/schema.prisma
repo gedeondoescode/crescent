@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "cargo prisma"
+  output   = "../core/src/prisma.rs"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+model Profile {
+  id           Int         @id @default(autoincrement())
+  name         String
+  description  String?
+  date_created DateTime    @default(now())
+  date_updated DateTime    @updatedAt
+  workspaces   Workspace[]
+
+  @@map("profile")
+}
+
+model Workspace {
+  id         Int                @id @default(autoincrement())
+  name       String
+  labels     LabelOnWorkspace[]
+  notes      Note[]
+  tasks      Task[]
+  goals      Goal[]
+  profile    Profile?           @relation(fields: [profile_id], references: [id])
+  profile_id Int?
+
+  @@map("workspace")
+}
+
+model Note {
+  id           Int          @id @default(autoincrement())
+  title        String
+  content      String?
+  date_created DateTime     @default(now())
+  date_updated DateTime     @updatedAt
+  tags         TagObjects[]
+  workspace    Workspace?   @relation(fields: [workspace_id], references: [id])
+  workspace_id Int?
+
+  @@map("note")
+}
+
+model Task {
+  id             Int        @id @default(autoincrement())
+  name           String
+  content        String?
+  status         Int        @default(0) // 0 = Not started, 1 = In Progress, 2 = Complete
+  date_due       DateTime?
+  date_completed DateTime?  @default(now())
+  date_created   DateTime   @default(now())
+  date_updated   DateTime   @updatedAt
+  workspaces     Workspace? @relation(fields: [workspace_id], references: [id])
+  workspace_id   Int?
+  goals          Goal?      @relation(fields: [goal_id], references: [id])
+  goal_id        Int?
+
+  @@map("task")
+}
+
+model Goal {
+  id           Int        @id @default(autoincrement())
+  name         String
+  description  String
+  status       Int        @default(0) // 0 = Not started, you know how it goes after that
+  date_from    DateTime?  @default(now())
+  date_to      DateTime?
+  date_created DateTime   @default(now())
+  date_updated DateTime   @updatedAt
+  tasks        Task[]
+  workspace    Workspace? @relation(fields: [workspace_id], references: [id])
+  workspace_id Int?
+
+  @@map("goal")
+}
+
+model Tag {
+  id           Int          @id @default(autoincrement())
+  name         String?
+  color        String?
+  date_created DateTime     @default(now())
+  date_updated DateTime     @updatedAt
+  num_objects  Int          @default(0)
+  tags         TagObjects[]
+
+  @@map("tag")
+}
+
+model TagObjects {
+  date_created DateTime @default(now())
+  tags         Tag      @relation(fields: [tags_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tags_id      Int
+  notes        Note     @relation(fields: [notes_id], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  notes_id     Int
+
+  @@id([tags_id, notes_id])
+  @@map("tag_objects")
+}
+
+model Label {
+  id                 Int                @id @default(autoincrement())
+  name               String
+  date_created       DateTime           @default(now())
+  date_updated       DateTime           @updatedAt
+  labeled_workspaces LabelOnWorkspace[]
+
+  @@map("label")
+}
+
+model LabelOnWorkspace {
+  label        Label     @relation(fields: [label_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  label_id     Int
+  workspace    Workspace @relation(fields: [workspace_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspace_id Int
+
+  @@id([label_id, workspace_id])
+  @@map("label_on_workspace")
+}
