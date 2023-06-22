@@ -3,7 +3,15 @@
 export type Procedures = {
     queries: 
         { key: "hello.sayHi", input: never, result: string } | 
+        { key: "notes.get", input: GetNotesByWorkspaceId, result: Note[] } | 
         { key: "version", input: never, result: string },
-    mutations: never,
+    mutations: 
+        { key: "notes.create", input: CreateNote, result: Note },
     subscriptions: never
 };
+
+export type GetNotesByWorkspaceId = { workspace_id: number }
+
+export type CreateNote = { workspace_id: number }
+
+export type Note = { id: number; title: string; content: string; date_created: string; date_updated: string; workspace_id: number }
