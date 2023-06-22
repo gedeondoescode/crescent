@@ -3,7 +3,7 @@
 
 use std::sync::Arc;
 
-use slcore::Shared;
+use cscore::Shared;
 use tauri::Manager;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -31,8 +31,8 @@ macro_rules! tauri_handlers {
 }
 #[tokio::main]
 async fn main() {
-    let client = Arc::new(slcore::db::migrator::new_client().await.unwrap());
-    let router = slcore::routes::start_router();
+    let client = Arc::new(cscore::db::migrator::new_client().await.unwrap());
+    let router = cscore::routes::start_router();
 
     tauri::Builder::default()
         .plugin(rspc::integrations::tauri::plugin(router, move || Shared {
