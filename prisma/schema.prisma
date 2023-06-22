@@ -29,8 +29,8 @@ model Workspace {
   notes      Note[]
   tasks      Task[]
   goals      Goal[]
-  profile    Profile?           @relation(fields: [profile_id], references: [id])
-  profile_id Int?
+  profile    Profile            @relation(fields: [profile_id], references: [id])
+  profile_id Int
 
   @@map("workspace")
 }
@@ -38,45 +38,45 @@ model Workspace {
 model Note {
   id           Int          @id @default(autoincrement())
   title        String
-  content      String?
+  content      String
   date_created DateTime     @default(now())
   date_updated DateTime     @updatedAt
   tags         TagObjects[]
-  workspace    Workspace?   @relation(fields: [workspace_id], references: [id])
-  workspace_id Int?
+  workspace    Workspace    @relation(fields: [workspace_id], references: [id])
+  workspace_id Int
 
   @@map("note")
 }
 
 model Task {
-  id             Int        @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   name           String
-  content        String?
-  status         Int        @default(0) // 0 = Not started, 1 = In Progress, 2 = Complete
+  content        String
+  status         Int       @default(0) // 0 = Not started, 1 = In Progress, 2 = Complete
   date_due       DateTime?
-  date_completed DateTime?  @default(now())
-  date_created   DateTime   @default(now())
-  date_updated   DateTime   @updatedAt
-  workspaces     Workspace? @relation(fields: [workspace_id], references: [id])
-  workspace_id   Int?
-  goals          Goal?      @relation(fields: [goal_id], references: [id])
-  goal_id        Int?
+  date_completed DateTime? @default(now())
+  date_created   DateTime  @default(now())
+  date_updated   DateTime  @updatedAt
+  workspaces     Workspace @relation(fields: [workspace_id], references: [id])
+  workspace_id   Int
+  goals          Goal      @relation(fields: [goal_id], references: [id])
+  goal_id        Int
 
   @@map("task")
 }
 
 model Goal {
-  id           Int        @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
   description  String
-  status       Int        @default(0) // 0 = Not started, you know how it goes after that
-  date_from    DateTime?  @default(now())
+  status       Int       @default(0) // 0 = Not started, you know how it goes after that
+  date_from    DateTime? @default(now())
   date_to      DateTime?
-  date_created DateTime   @default(now())
-  date_updated DateTime   @updatedAt
+  date_created DateTime  @default(now())
+  date_updated DateTime  @updatedAt
   tasks        Task[]
-  workspace    Workspace? @relation(fields: [workspace_id], references: [id])
-  workspace_id Int?
+  workspace    Workspace @relation(fields: [workspace_id], references: [id])
+  workspace_id Int
 
   @@map("goal")
 }
