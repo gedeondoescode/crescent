@@ -49,9 +49,9 @@ export function Menu() {
       </MenubarMenu>
 
       <MenubarMenu>
-        <MenubarTrigger className="font-bold">App</MenubarTrigger>
+        <MenubarTrigger className="font-bold">Crescent</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>About App</MenubarItem>
+          <MenubarItem>About Crescent</MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
             Preferences... <MenubarShortcut>⌘,</MenubarShortcut>
