@@ -56,4 +56,32 @@ pub fn mount() -> RouterBuilder<Shared> {
                 Ok(result)
             })
         })
+        .mutation("edit", |t| {
+            #[derive(Debug, Serialize, Deserialize, Type)]
+            struct EditNoteArgs {
+                id: i32,
+                title: String,
+                content: String
+
+            }
+            t(|ctx, args: EditNoteArgs| async move {
+                let result = ctx.client.note().update(prisma::note::id::equals(args.id), vec![
+                    prisma::note::title::set(args.title),
+                    prisma::note::content::set(args.content),
+                ]).exec().await?;
+
+                Ok(result)
+            })
+        })
+        .mutation("delete", |t| {
+            #[derive(Debug, Deserialize, Type)]
+            struct DeleteNoteArgs {
+                id: i32
+            }
+
+            t(|ctx, args: DeleteNoteArgs | async move {
+                let result = ctx.client.note().delete(prisma::note::id::equals(args.id)).exec().await?;
+                Ok(result)
+            })
+        })
 }
