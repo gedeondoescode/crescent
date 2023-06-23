@@ -6,16 +6,16 @@ pub fn mount() -> RouterBuilder<Shared> {
     RouterBuilder::<Shared>::new()
         .query("get", |t| {
             #[derive(Debug, Serialize, Deserialize, Type)]
-            struct GetNotesByWorkspaceId {
+            struct GetNotesArgs {
                 workspace_id: i32,
             }
 
             t(
-                |ctx, GetNotesByWorkspaceId { workspace_id }: GetNotesByWorkspaceId| async move {
+                |ctx, args: GetNotesArgs| async move {
                     let result = ctx
                         .client
                         .note()
-                        .find_many(vec![prisma::note::workspace_id::equals(workspace_id)])
+                        .find_many(vec![prisma::note::workspace_id::equals(args.workspace_id)])
                         .take(4)
                         .exec()
                         .await?;
@@ -26,15 +26,15 @@ pub fn mount() -> RouterBuilder<Shared> {
         })
         .mutation("create", |t| {
             #[derive(Debug, Serialize, Deserialize, Type)]
-            struct CreateNote {
+            struct CreateNoteArgs {
                 workspace_id: i32,
             }
 
-            t(|ctx, CreateNote { workspace_id }: CreateNote| async move {
+            t(|ctx, args: CreateNoteArgs| async move {
                 let notes_length = ctx
                     .client
                     .note()
-                    .find_many(vec![prisma::note::workspace_id::equals(workspace_id)])
+                    .find_many(vec![prisma::note::workspace_id::equals(args.workspace_id)])
                     .exec()
                     .await?
                     .len();
@@ -47,7 +47,7 @@ pub fn mount() -> RouterBuilder<Shared> {
                     .create(
                         title,
                         String::new(),
-                        prisma::workspace::id::equals(workspace_id),
+                        prisma::workspace::id::equals(args.workspace_id),
                         vec![],
                     )
                     .exec()
