@@ -3,15 +3,21 @@
 export type Procedures = {
     queries: 
         { key: "hello.sayHi", input: never, result: string } | 
-        { key: "notes.get", input: GetNotesByWorkspaceId, result: Note[] } | 
+        { key: "notes.get", input: GetNotesArgs, result: Note[] } | 
         { key: "version", input: never, result: string },
     mutations: 
-        { key: "notes.create", input: CreateNote, result: Note },
+        { key: "notes.create", input: CreateNoteArgs, result: Note } | 
+        { key: "notes.delete", input: DeleteNoteArgs, result: Note } | 
+        { key: "notes.edit", input: EditNoteArgs, result: Note },
     subscriptions: never
 };
 
-export type GetNotesByWorkspaceId = { workspace_id: number }
+export type GetNotesArgs = { workspace_id: number }
 
-export type CreateNote = { workspace_id: number }
+export type EditNoteArgs = { id: number; title: string; content: string }
+
+export type DeleteNoteArgs = { id: number }
+
+export type CreateNoteArgs = { workspace_id: number }
 
 export type Note = { id: number; title: string; content: string; date_created: string; date_updated: string; workspace_id: number }
