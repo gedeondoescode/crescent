@@ -2,6 +2,7 @@ use crate::Shared;
 use rspc::{Config, Router};
 use std::{path::PathBuf, sync::Arc};
 
+pub mod goals;
 pub mod hello;
 pub mod notes;
 
@@ -12,6 +13,7 @@ pub fn start_router() -> Arc<Router<Shared>> {
         ))
         .merge("hello.", hello::mount())
         .merge("notes.", notes::mount())
+        .merge("goals.", goals::mount())
         .query("version", |t| {
             t(|_, _: ()| async move { env!("CARGO_PKG_VERSION") })
         });
