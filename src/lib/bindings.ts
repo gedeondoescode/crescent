@@ -2,6 +2,7 @@
 
 export type Procedures = {
     queries: 
+        { key: "goals.getAllGoals", input: GetAllGoalsArgs, result: Goal[] } | 
         { key: "hello.sayHi", input: never, result: string } | 
         { key: "notes.get", input: GetNotesArgs, result: Note[] } | 
         { key: "version", input: never, result: string },
@@ -18,6 +19,10 @@ export type EditNoteArgs = { id: number; title: string; content: string }
 
 export type DeleteNoteArgs = { id: number }
 
+export type GetAllGoalsArgs = { workspace_id: number }
+
 export type CreateNoteArgs = { workspace_id: number }
+
+export type Goal = { id: number; name: string; description: string; status: number; date_from: string | null; date_to: string | null; date_created: string; date_updated: string; workspace_id: number }
 
 export type Note = { id: number; title: string; content: string; date_created: string; date_updated: string; workspace_id: number }

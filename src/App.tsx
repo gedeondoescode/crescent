@@ -1,45 +1,27 @@
-import { useEffect, useState } from "react"
-import { invoke } from "@tauri-apps/api/tauri"
+import { useEffect } from "react"
+import { Outlet } from "react-router-dom"
 
 import { Menu } from "@/components/menu"
 
-import { TailwindIndicator } from "./components/tailwind-indicator"
 import { ThemeProvider } from "./components/theme-provider"
-import DashboardPage from "./dashboard/page"
-import { cn } from "./lib/utils"
 import { appReady } from "./lib/commands"
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("")
-  const [name, setName] = useState("")
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }))
-  }
-
+function Wrapper() {
   useEffect(() => {
     // This tells Tauri to show the current window because it's finished loading
     appReady()
   }, [])
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="h-screen overflow-clip">
-        <Menu />
-        <div
-          className={cn(
-            "h-screen overflow-auto border-t bg-background pb-8",
-            // "scrollbar-none"
-            "scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md"
-          )}
-        >
-          <DashboardPage />
+    <>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <div className="bg-background">
+          <Menu />
+          <Outlet />
         </div>
-      </div>
-      <TailwindIndicator />
-    </ThemeProvider>
+      </ThemeProvider>
+    </>
   )
 }
 
-export default App
+export default Wrapper
