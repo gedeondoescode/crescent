@@ -32,9 +32,16 @@ export default function DashboardPage() {
 
   // Change greeting based on current time
   const hour = time.getHours()
+  const day = time.toLocaleString([], {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  })
+  // TODO: show user's name in greeting
   const greeting = `Good ${
-    (hour < 12 && "Morning") || (hour < 17 && "Afternoon") || "Evening"
-  } `
+    (hour < 6 && "Morning") || (hour < 17 && "Afternoon") || "Evening"
+  }, Gedeon`
 
   // Get current time for locale
   const currentTime = time.toLocaleTimeString([], {
@@ -43,7 +50,7 @@ export default function DashboardPage() {
   })
 
   return (
-    <div className="flex-col md:flex">
+    <div className="h-screen flex-col md:flex">
       {/* <div className="border-b"> */}
       {/* <div className="flex h-16 items-center px-4"> */}
       {/* <TeamSwitcher /> */}
@@ -54,42 +61,25 @@ export default function DashboardPage() {
           </div> */}
       {/* </div> */}
       {/* </div> */}
-      <div className="flex flex-row">
-        <div className="flex h-screen w-full max-w-[190px] flex-row bg-blue-900">
+      <div className="flex grow flex-row">
+        {/* TODO: add a finished navbar later */}
+        {/* <div className="flex h-screen w-full max-w-[190px] flex-row bg-blue-900">
           navbar
-        </div>
-        <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between space-y-2">
+        </div> */}
+        <div className="h-full flex-1 px-8 py-6">
+          <div className="flex h-full grow flex-col space-y-8">
             <div className="flex flex-col space-y-2">
-              <h1 className="text-5xl font-bold tracking-tight">{greeting}</h1>
-              <p className="font-semibold text-gray-400">
-                It is currently <span className="font-bold">{currentTime}</span>
-              </p>
+              <h1 className="text-5xl font-bold">{greeting}</h1>
+              <div className="flex flex-row">
+                <p className="font-semibold ">
+                  Today is {day}. It is currently
+                  <span className="font-extrabold"> {currentTime}</span>
+                </p>
+              </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <CalendarDateRangePicker />
-              <Button size="sm">
-                <Download className="mr-2 h-4 w-4" />
-                Download
-              </Button>
-            </div>
-          </div>
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
-                Notifications
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
+            <div className="my-5 flex h-full grow-0 flex-col">
+              <div className="mb-5 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="h-28">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Total Revenue
@@ -103,7 +93,7 @@ export default function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="h-28">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Subscriptions
@@ -117,7 +107,7 @@ export default function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="h-28">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Sales</CardTitle>
                     <CreditCard className="h-4 w-4 text-muted-foreground" />
@@ -129,7 +119,7 @@ export default function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="h-28">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Active Now
@@ -144,29 +134,21 @@ export default function DashboardPage() {
                   </CardContent>
                 </Card>
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pl-2">
-                    <Overview />
-                  </CardContent>
-                </Card>
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
-                    <CardDescription>
-                      You made 265 sales this month.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <RecentSales />
-                  </CardContent>
-                </Card>
+              <div className="flex grow flex-col rounded-lg border">
+                <div className="flex h-full flex-col items-center justify-center space-y-5 p-10 text-center">
+                  <h1 className="text-3xl font-extrabold">
+                    Seems Empty Here...
+                  </h1>
+                  <p className="w-2/4 text-lg">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Repellat similique beatae praesentium dolorum animi nisi
+                    dolores perferendis totam, quidem laborum vel quae aut
+                    dolorem, deserunt suscipit? Mollitia iste delectus totam.
+                  </p>
+                </div>
               </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+          </div>
         </div>
       </div>
     </div>

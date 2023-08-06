@@ -1,4 +1,6 @@
+import { Button } from "@/components/ui/button"
 import { OnboardingContainer } from "./Layout"
+import { Link } from "react-router-dom"
 
 export default function Intro() {
   return (
@@ -15,6 +17,13 @@ export default function Intro() {
             doloribus quas sequi ipsum dignissimos animi. Consequuntur sequi
             quis ipsa odio blanditiis!
           </p>
+        </div>
+        <div className="my-5">
+            <Link to="/dashboard" replace={true}>
+              <Button variant={"secondary"} size={"lg"} className="bg-white text-black w-48 text-lg hover:text-neutral-50">
+                Let's go!
+              </Button>
+            </Link>
         </div>
       </div>
     </OnboardingContainer>

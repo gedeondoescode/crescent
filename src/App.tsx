@@ -15,8 +15,8 @@ function Wrapper() {
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <div className="bg-background">
-          <Menu />
+        <div className="bg-background w-full h-full">
+          {/* <Menu /> */}
           <Outlet />
         </div>
       </ThemeProvider>

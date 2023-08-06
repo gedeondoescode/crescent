@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import onboardingRoutes from "./app/onboarding"
 import { RspcProvider } from "./lib/rspc"
+import DashboardPage from "./dashboard/page"
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
         lazy: () => import("./app/onboarding/Layout"),
         children: onboardingRoutes,
       },
+      {
+        path: "/dashboard",
+        element: <DashboardPage/>,
+      }
       // {
       //   path: "onboarding",
       //   children: onboardingRoutes,

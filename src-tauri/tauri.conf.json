@@ -68,7 +68,7 @@
         "title": "crescent",
         "center": true,
         "resizable": true,
-        "decorations": false,
+        "decorations": true,
         "transparent": true,
         "height": 920,
         "width": 1300
